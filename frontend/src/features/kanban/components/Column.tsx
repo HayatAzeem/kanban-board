@@ -1,5 +1,5 @@
 import { Droppable } from "@hello-pangea/dnd";
-import { Plus } from "lucide-react";
+
 import { TaskCard } from "./TaskCard";
 import { type Application } from "../store/kanbanStore";
 
