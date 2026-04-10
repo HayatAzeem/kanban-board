@@ -58,7 +58,7 @@ npm run dev
 Navigate to `http://localhost:5173` to register an account and start tracking your job applications.
 
 ### 5. Sample JD to run the AI features
-# Copy and paste the following text into the Job Description field and click Generate Insights button to see the AI features in action
+#### Copy and paste the following text into the Job Description field and click Generate Insights button to see the AI features in action
 
 Company: Vercel
 Role: Senior Frontend Engineer (React/Next.js)
