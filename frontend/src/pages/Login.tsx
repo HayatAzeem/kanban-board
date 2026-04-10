@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import apiClient from "../api/apiClient";
-import { Briefcase } from "lucide-react";
+import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
+import { Loader2 } from "lucide-react";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -28,49 +30,41 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="card-style max-w-md w-full p-8">
-        <div className="flex flex-col items-center mb-8">
-          <div className="bg-primary/20 p-3 rounded-full mb-4">
-            <Briefcase className="w-8 h-8 text-primary" />
-          </div>
-          <h2 className="text-2xl font-bold text-textMain">Welcome Back</h2>
-          <p className="text-textMuted mt-2 text-sm">Login to track your job applications</p>
+    <>
+      {error && <div className="rounded-md bg-danger/10 p-3 text-sm text-danger text-center">{error}</div>}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-textMain">Email Address</label>
+          <Input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+          />
         </div>
-
-        {error && <div className="bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded mb-6 text-sm text-center">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-textMuted mb-2">Email Address</label>
-            <input
-              type="email"
-              required
-              className="input-style"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-            />
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="block text-sm font-medium text-textMain">Password</label>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-textMuted mb-2">Password</label>
-            <input
-              type="password"
-              required
-              className="input-style"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-            />
-          </div>
-          <button type="submit" disabled={loading} className="btn-primary w-full flex justify-center py-3">
-            {loading ? <span className="animate-pulse">Logging in...</span> : "Login"}
-          </button>
-        </form>
-        <p className="mt-6 text-center text-sm text-textMuted">
-          Don't have an account? <Link to="/register" className="text-primary hover:underline">Register here</Link>
-        </p>
-      </div>
-    </div>
+          <Input
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+          />
+        </div>
+        
+        <Button type="submit" disabled={loading} className="w-full mt-6">
+          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Sign in to your account"}
+        </Button>
+      </form>
+      
+      <p className="mt-6 text-center text-sm text-textMuted">
+        Don't have an account? <Link to="/register" className="font-semibold text-accent hover:text-primaryHover transition-colors">Register here</Link>
+      </p>
+    </>
   );
 };

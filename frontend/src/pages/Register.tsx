@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import apiClient from "../api/apiClient";
-import { Briefcase } from "lucide-react";
+import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
+import { Loader2 } from "lucide-react";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
@@ -28,50 +30,40 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="card-style max-w-md w-full p-8">
-        <div className="flex flex-col items-center mb-8">
-          <div className="bg-primary/20 p-3 rounded-full mb-4">
-            <Briefcase className="w-8 h-8 text-primary" />
-          </div>
-          <h2 className="text-2xl font-bold text-textMain">Create an Account</h2>
-          <p className="text-textMuted mt-2 text-sm">Start tracking your job applications with AI</p>
+    <>
+      {error && <div className="rounded-md bg-danger/10 p-3 text-sm text-danger text-center">{error}</div>}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-textMain">Email Address</label>
+          <Input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+          />
         </div>
-
-        {error && <div className="bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded mb-6 text-sm text-center">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-textMuted mb-2">Email Address</label>
-            <input
-              type="email"
-              required
-              className="input-style"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-textMuted mb-2">Password</label>
-            <input
-              type="password"
-              required
-              className="input-style"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              minLength={6}
-            />
-          </div>
-          <button type="submit" disabled={loading} className="btn-primary w-full flex justify-center py-3">
-            {loading ? <span className="animate-pulse">Registering...</span> : "Register"}
-          </button>
-        </form>
-        <p className="mt-6 text-center text-sm text-textMuted">
-          Already have an account? <Link to="/login" className="text-primary hover:underline">Login here</Link>
-        </p>
-      </div>
-    </div>
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-textMain">Password</label>
+          <Input
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            minLength={6}
+          />
+        </div>
+        
+        <Button type="submit" disabled={loading} className="w-full mt-6">
+          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Create your account"}
+        </Button>
+      </form>
+      
+      <p className="mt-6 text-center text-sm text-textMuted">
+        Already have an account? <Link to="/login" className="font-semibold text-accent hover:text-primaryHover transition-colors">Sign in here</Link>
+      </p>
+    </>
   );
 };

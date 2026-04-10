@@ -1,7 +1,7 @@
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY, 
 });
 
 export const parseJobDescription = async (jobDescription: string) => {
@@ -19,13 +19,16 @@ If any piece of information is missing, use null or an empty array.
 Job Description:
 ${jobDescription}`;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: prompt }],
-    response_format: { type: "json_object" },
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: prompt,
+    config: {
+      responseMimeType: "application/json",
+      temperature: 0.1,
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.text;
   if (!content) throw new Error("Failed to parse JD");
   return JSON.parse(content);
 };
@@ -40,18 +43,19 @@ Base your suggestions purely on the provided job description. Focus on impact, m
 Job Description:
 ${jobDescription}`;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: prompt }],
-    response_format: { type: "json_object" },
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: prompt,
+    config: {
+      responseMimeType: "application/json",
+      temperature: 0.7,
+    }
   });
 
-  const content = response.choices[0].message.content;
+  const content = response.text;
   if (!content) throw new Error("Failed to generate suggestions");
 
-  // ensure we return standard string arrays
   const parsed = JSON.parse(content);
-  // Depending on how GPT formats the JSON object containing an array, we handle it:
   if (Array.isArray(parsed)) return parsed;
   if (parsed.suggestions && Array.isArray(parsed.suggestions)) return parsed.suggestions;
   if (parsed.bulletPoints && Array.isArray(parsed.bulletPoints)) return parsed.bulletPoints;

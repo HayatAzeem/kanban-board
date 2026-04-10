@@ -56,3 +56,29 @@ npm run dev
 
 ### 4. Access the App
 Navigate to `http://localhost:5173` to register an account and start tracking your job applications.
+
+### 5. Sample JD to run the AI features
+# Copy and paste the following text into the Job Description field and click Generate Insights button to see the AI features in action
+
+Company: Vercel
+Role: Senior Frontend Engineer (React/Next.js)
+
+About Us
+Vercel is the platform for frontend developers, providing the speed and reliability innovators need to create at the moment of inspiration. We enable teams to iterate quickly and develop, preview, and ship delightful user experiences.
+
+The Role
+We are looking for a Senior Frontend Engineer to join our core product team. You will be building modern, high-performance user interfaces that thousands of developers rely on daily.
+
+Requirements:
+- 5+ years of experience with React, TypeScript, and modern CSS frameworks like Tailwind.
+- Deep understanding of Next.js, App Router, and server-side rendering (SSR).
+- Strong experience building complex, interactive interfaces (e.g., drag-and-drop, fluid animations).
+- Solid grasp of web performance optimization and Core Web Vitals.
+- Ability to write clean, maintainable, and well-tested code.
+
+Nice to Have:
+- Experience with Framer Motion or complex data visualization.
+- Previous meaningful open-source contributions.
+
+Location: Remote (US)
+Compensation: $150,000 - $190,000 + Equity

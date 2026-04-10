@@ -23,7 +23,7 @@ router.post("/register", async (req: Request, res: Response): Promise<void> => {
       expiresIn: "7d",
     });
 
-    res.status(201).json({ token, user: { id: user._id, email } });
+    res.status(201).json({ token, user: { _id: user._id, email: user.email, username: user.username } });
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
@@ -48,7 +48,7 @@ router.post("/login", async (req: Request, res: Response): Promise<void> => {
       expiresIn: "7d",
     });
 
-    res.status(200).json({ token, user: { id: user._id, email } });
+    res.status(200).json({ token, user: { _id: user._id, email: user.email, username: user.username } });
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
@@ -64,6 +64,36 @@ router.get("/me", authenticateToken, async (req: AuthRequest, res: Response): Pr
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.patch("/profile", authenticateToken, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { username, password } = req.body;
+    const updateData: any = {};
+    
+    if (username !== undefined) {
+      updateData.username = username;
+    }
+    
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+    
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { $set: updateData },
+      { new: true }
+    ).select("-password");
+    
+    if (!user) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
+    
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update profile" });
   }
 });
 

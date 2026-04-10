@@ -13,6 +13,11 @@ const applicationSchema = new mongoose.Schema({
   jdLink: { type: String },
   notes: { type: String },
   salaryRange: { type: String },
+  skills: { type: [String], default: [] },
+  niceToHave: { type: [String], default: [] },
+  seniority: { type: String },
+  location: { type: String },
+  resumeSuggestions: { type: [String], default: [] },
 }, { timestamps: true });
 
 export default mongoose.model("Application", applicationSchema);
